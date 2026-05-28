@@ -15,35 +15,35 @@ Route::get('/api/email/verify/{id}/{hash}', function (Request $request, $id, $ha
     $user = User::find($id);
 
     if (!$user) {
-        return redirect('http://localhost:5173/login?verified=false&reason=user_not_found');
+        return redirect('https://griya-dhahar-suroboyo.vercel.app/login?verified=false&reason=user_not_found');
     }
 
     // 2. Validasi hash
     if (!hash_equals(sha1($user->getEmailForVerification()), $hash)) {
-        return redirect('http://localhost:5173/login?verified=false&reason=invalid_hash');
+        return redirect('https://griya-dhahar-suroboyo.vercel.app/login?verified=false&reason=invalid_hash');
     }
 
     // 3. Validasi signature (expired atau tidak)
     if (!$request->hasValidSignature()) {
-        return redirect('http://localhost:5173/login?verified=false&reason=expired');
+        return redirect('https://griya-dhahar-suroboyo.vercel.app/login?verified=false&reason=expired');
     }
 
     // 4. Cek apakah sudah diverifikasi
     if ($user->hasVerifiedEmail()) {
-        return redirect('http://localhost:5173/login?verified=already');
+        return redirect('https://griya-dhahar-suroboyo.vercel.app/login?verified=already');
     }
 
     // 5. Tandai sebagai terverifikasi
     $user->email_verified_at = Carbon::now();
     $user->save();
 
-    return redirect('http://localhost:5173/login?verified=true');
+    return redirect('https://griya-dhahar-suroboyo.vercel.app/login?verified=true');
 
 })->middleware('signed')->name('verification.verify');
 
 // ✅ Route login wajib ada karena Laravel butuh ini internally
 Route::get('/login', function () {
-    return redirect('http://localhost:5173/login');
+    return redirect('https://griya-dhahar-suroboyo.vercel.app/login');
 })->name('login');
 
 ?>
