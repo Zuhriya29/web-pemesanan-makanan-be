@@ -188,7 +188,8 @@ class UserController extends Controller
                 'name'     => $request->name,
                 'email'    => $request->email,
                 'password' => Hash::make($request->password),
-                'role'     => 'admin', // 🔑 INI KUNCINYA
+                'role'     => 'admin', 
+                'email_verified_at' => now(),
             ]);
 
             return response()->json([
