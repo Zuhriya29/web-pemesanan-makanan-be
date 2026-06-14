@@ -339,8 +339,8 @@ class PesananController extends Controller
                 env('SUPABASE_URL')
                     . '/storage/v1/object/public/storage/'
                     . $path,
-                'expired_at' => $pesanan->expired_at
-            ]);
+                'expired_at' => $pesanan->expired_at->toIso8601String(),
+            ], 400);
         } catch (\Exception $e) {
             DB::rollBack();
 
