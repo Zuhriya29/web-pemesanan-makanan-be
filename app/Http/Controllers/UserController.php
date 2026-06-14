@@ -189,11 +189,18 @@ class UserController extends Controller
                 'email'    => $request->email,
                 'password' => Hash::make($request->password),
                 'role'     => 'admin', 
-                'email_verified_at' => now(),
             ]);
+
+            Auth::login($user);
+            $user->sendEmailVerificationNotification();
+            
+            $token = $user->createToken('verify-token')->plainTextToken;
+            
+            Auth::logout();
 
             return response()->json([
                 'message' => 'Pendaftaran admin berhasil'
+            'token'   => $token, 
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
