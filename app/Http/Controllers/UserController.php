@@ -191,12 +191,9 @@ class UserController extends Controller
                 'role'     => 'admin', 
             ]);
 
-            Auth::login($user);
             $user->sendEmailVerificationNotification();
             
             $token = $user->createToken('verify-token')->plainTextToken;
-            
-            Auth::logout();
 
             return response()->json([
                 'message' => 'Pendaftaran admin berhasil',
