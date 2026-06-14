@@ -199,8 +199,8 @@ class UserController extends Controller
             Auth::logout();
 
             return response()->json([
-                'message' => 'Pendaftaran admin berhasil'
-            'token'   => $token, 
+                'message' => 'Pendaftaran admin berhasil',
+                'token'   => $token, 
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
