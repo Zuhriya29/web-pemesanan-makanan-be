@@ -49,15 +49,15 @@ class UserController extends Controller
 
             Auth::login($user);
             $user->sendEmailVerificationNotification();
-            
+
             $token = $user->createToken('verify-token')->plainTextToken;
-            
+
             Auth::logout();
 
             // Arahkan ke halaman pemberitahuan
             return response()->json([
                 'message' => 'Registrasi berhasil! Silakan cek email untuk verifikasi.',
-                 'token'   => $token, 
+                'token'   => $token,
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
@@ -110,13 +110,13 @@ class UserController extends Controller
         $user  = Auth::user();
 
         if (!$user->hasVerifiedEmail()) {
-        Auth::logout(); // ✅ Logout dulu agar session tidak tersimpan
+            Auth::logout(); // ✅ Logout dulu agar session tidak tersimpan
 
-        return response()->json([
-            'message' => 'Email belum diverifikasi. Silakan cek email kamu.',
-            'verified' => false, // ✅ Frontend bisa cek flag ini
-        ], 403);
-    }
+            return response()->json([
+                'message' => 'Email belum diverifikasi. Silakan cek email kamu.',
+                'verified' => false, // ✅ Frontend bisa cek flag ini
+            ], 403);
+        }
         $token = $user->createToken('app-token')->plainTextToken;
 
         return response()->json([
@@ -124,7 +124,7 @@ class UserController extends Controller
             'role'    => $user->role,
             'user'    => $user,
             'token'   => $token,
-        'verified' => true,
+            'verified' => true,
         ]);
     }
 
@@ -188,16 +188,16 @@ class UserController extends Controller
                 'name'     => $request->name,
                 'email'    => $request->email,
                 'password' => Hash::make($request->password),
-                'role'     => 'admin', 
+                'role'     => 'admin',
             ]);
 
             $user->sendEmailVerificationNotification();
-            
+
             $token = $user->createToken('verify-token')->plainTextToken;
 
             return response()->json([
                 'message' => 'Pendaftaran admin berhasil',
-                'token'   => $token, 
+                'token'   => $token,
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
